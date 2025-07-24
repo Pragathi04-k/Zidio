@@ -4,28 +4,29 @@ import { validationResult } from 'express-validator';
 // Create a new post
 export const createPost = async (req, res) => {
     try {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
-        }
-
-        const { title, description, tags, author } = req.body;
-        const userId = req.user.id;
-
-        const newPost = new Post({
-            title,
-            description,
-            tags: tags || [],
-            userId,
-            author
-        });
-
-        const savedPost = await newPost.save();
-        res.status(201).json(savedPost);
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+      console.log(req.body)
+      const { title, description, tags, author, userId } = req.body;
+  
+      const newPost = new Post({
+        title,
+        description,
+        tags: tags || [],
+        userId,
+        author
+      });
+  
+      const savedPost = await newPost.save();
+      res.status(201).json(savedPost);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+      console.error("Post creation error:", error);
+      res.status(500).json({ message: error.message });
     }
-};
+  };
+  
 
 // Get all posts
 export const getPosts = async (req, res) => {

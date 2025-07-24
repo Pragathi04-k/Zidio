@@ -32,25 +32,7 @@ const GetStarted = () => {
         
         </div>
         
-        {/* Stats */}
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-          {[
-            { number: '100+', label: 'Active Users' },
-            { number: '1K+', label: 'Blogs Published' },
-          ].map((stat, index) => (
-            <motion.div 
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="text-center p-6 bg-gray-900/50 rounded-xl backdrop-blur-sm"
-            >
-              <div className="text-3xl font-bold text-white mb-2">{stat.number}</div>
-              <div className="text-gray-400">{stat.label}</div>
-            </motion.div>
-          ))}
-        </div>
+
       </div>
     </section>
   );
