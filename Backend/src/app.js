@@ -14,7 +14,7 @@ const app = express();
 connectDB();
 
 app.use(cors({
-  origin: 'https://zidio-bay.vercel.app',
+  origin: '*',
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
