@@ -7,15 +7,18 @@ import { postService } from '../services/api';
 
 const Blog = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [allPosts, setAllPosts] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchPosts = async () => {
     try {
-      const posts = await postService.getPosts();
-      setFilteredPosts(posts.posts);
+      const response = await postService.getPosts();
+      setAllPosts(response.posts);
+      setFilteredPosts(response.posts);
     } catch (error) {
       console.error('Error fetching posts:', error);
+      toast.error('Failed to fetch posts');
     } finally {
       setIsLoading(false);
     }
@@ -33,34 +36,34 @@ const Blog = () => {
     const term = e.target.value;
     setSearchTerm(term);
   };
-  const handleSearch = async (e) => {
+  const handleSearch = (e) => {
     e.preventDefault();
+    
     if (!searchTerm.trim()) {
-      try {
-        const posts = await postService.getPosts();
-        setFilteredPosts(posts.posts);
-      } catch (error) {
-        toast.error('Failed to fetch posts');
-      }
+      setFilteredPosts(allPosts);
       return;
     }
     
-    try {
-      const results = await postService.searchPosts(searchTerm);
-      setFilteredPosts(results.posts);
-      
-      if (results.length === 0) {
-        toast.error('No posts found matching your search');
-      }
-    } catch (error) {
-      console.error('Search error:', error);
-      toast.error('Failed to search posts');
+    const searchLower = searchTerm.toLowerCase();
+    const filtered = allPosts.filter(post => 
+      post.title.toLowerCase().includes(searchLower) || 
+      (post.content && post.content.toLowerCase().includes(searchLower)) ||
+      (post.tags && post.tags.some(tag => tag.toLowerCase().includes(searchLower))) ||
+      (post.author && typeof post.author === 'object' && 
+        (post.author.username?.toLowerCase().includes(searchLower) ||
+         post.author.fullName?.toLowerCase().includes(searchLower)))
+    );
+    
+    setFilteredPosts(filtered);
+    
+    if (filtered.length === 0) {
+      toast('No matching posts found', { icon: '🔍' });
     }
   };
 
   const clearSearch = () => {
     setSearchTerm('');
-    setFilteredPosts([]);
+    setFilteredPosts(allPosts);
   };
 
   const navigate = useNavigate();
