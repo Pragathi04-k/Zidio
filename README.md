@@ -13,6 +13,37 @@ A modern, responsive blog platform built with React, Vite, and Tailwind CSS. Thi
 - State management with Redux Toolkit
 - Client-side routing with React Router
 
+## API Endpoints
+
+### Authentication
+- `POST /api/users/register` - Register a new user
+- `POST /api/users/login` - User login
+- `GET /api/users/profile` - Get current user profile
+
+### Posts
+- `GET /api/posts` - Get all published posts
+- `GET /api/posts/:id` - Get a single post
+- `POST /api/posts` - Create a new post
+- `PUT /api/posts/:id` - Update a post
+- `DELETE /api/posts/:id` - Delete a post
+
+### Comments
+- `GET /api/comments/post/:postId` - Get comments for a post
+- `POST /api/comments/add/:postId` - Add a comment
+- `DELETE /api/comments/:commentId` - Delete a comment
+
+### Likes
+- `POST /api/likes/:postId` - Toggle like on a post
+- `GET /api/likes/post/:postId` - Get likes for a post
+- `GET /api/likes/check/:postId` - Check if current user liked a post
+
+## Getting Started
+
+### Prerequisites
+- Node.js 18.0.0 or higher
+- MongoDB Atlas account or local MongoDB instance
+- npm or yarn package manager
+
 ## Tech Stack
 
 - **Frontend Framework**: React 19
